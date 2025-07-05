@@ -5,7 +5,6 @@ import Contact from './components/Contact'
 import About from './components/About'
 import Navbar from './components/Navbar'
 import Reserve from './components/Reserve'
-
 import './App.css'
 
 

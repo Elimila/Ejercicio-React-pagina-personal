@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+
 const initialState = {
   name: '',
   date: '',
@@ -15,25 +16,24 @@ const Reserve = () => {
 
   const navigate = useNavigate()
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target
-    const updatedData = { ...data, [name]: value }
-    setData(updatedData)
+const handleInputChange = (e) => {
+  const { name, value } = e.target
+  const updatedData = { ...data, [name]: value }
+  setData(updatedData)
 
-    // Validación simple: todos los campos obligatorios
-    if (
-      updatedData.name.length >= 3 &&
-      updatedData.date !== '' &&
-      updatedData.time !== '' &&
-      updatedData.guests !== ''
-    ) {
-      setMessage('')
-      setBtnDisabled(false)
-    } else {
-      setMessage('Todos los campos son obligatorios y el nombre debe tener al menos 3 caracteres')
-      setBtnDisabled(true)
-    }
+  const nameIsValid = /^[A-Za-zÁÉÍÓÚáéíóúñÑ ]{3,}$/.test(updatedData.name)
+  const dateIsValid = updatedData.date !== ''
+  const timeIsValid = updatedData.time !== ''
+  const guestsIsValid = parseInt(updatedData.guests) > 0
+
+  if (nameIsValid && dateIsValid && timeIsValid && guestsIsValid) {
+    setMessage('')
+    setBtnDisabled(false)
+  } else {
+    setMessage('Verifica los campos: nombre válido, fecha y hora seleccionadas, y número de comensales mayor a 0.')
+    setBtnDisabled(true)
   }
+}
 
   const clearState = () => {
     setData({ ...initialState })
@@ -49,6 +49,8 @@ const Reserve = () => {
   }
 
   return (
+  <>
+    <h1>Formulario de Reserva</h1>
     <form onSubmit={handleSubmit}>
       <input
         type="text"
@@ -79,6 +81,7 @@ const Reserve = () => {
       <button type="submit" disabled={btnDisabled}>Reservar</button>
       <p>{message}</p>
     </form>
+  </>
   )
 }
 

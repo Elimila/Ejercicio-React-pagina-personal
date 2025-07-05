@@ -54,6 +54,8 @@ const Contact = () => {
   }
 
   return (
+  <>
+    <h1>Formulario de Contacto</h1>
     <form onSubmit={handleSubmit}>
       <input
         type="text"
@@ -86,6 +88,7 @@ const Contact = () => {
       <button type="submit" disabled={btnDisabled}>Submit</button>
       <p>{message}</p>
     </form>
+  </>
   )
 }
 
