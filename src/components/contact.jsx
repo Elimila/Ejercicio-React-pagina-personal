@@ -16,30 +16,28 @@ const Contact = () => {
   const navigate = useNavigate()
 
   const handleInputChange = (event) => {
-    const { name, value } = event.target
+  const { name, value } = event.target
 
-    const updatedData = {
-      ...data,
-      [name]: value
-    }
-
-    setData(updatedData)
-
-    // Validación simple
-    if (
-      updatedData.name.length >= 3 &&
-      updatedData.email !== '' &&
-      updatedData.age !== '' &&
-      !isNaN(updatedData.age) &&
-      updatedData.address !== ''
-    ) {
-      setMessage('')
-      setBtnDisabled(false)
-    } else {
-      setMessage('Todos los campos son obligatorios y el nombre debe tener al menos 3 caracteres')
-      setBtnDisabled(true)
-    }
+  const updatedData = {
+    ...data,
+    [name]: value
   }
+
+  setData(updatedData)
+
+  const nameIsValid = /^[A-Za-zÁÉÍÓÚáéíóúñÑ ]{3,}$/.test(updatedData.name)
+  const emailIsValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(updatedData.email)
+  const ageIsValid = parseInt(updatedData.age) > 0
+  const addressIsValid = updatedData.address.length >= 5
+
+  if (nameIsValid && emailIsValid && ageIsValid && addressIsValid) {
+    setMessage('')
+    setBtnDisabled(false)
+  } else {
+    setMessage('Verifica los campos: nombre válido, email correcto, edad mayor a 0 y dirección no vacía.')
+    setBtnDisabled(true)
+  }
+}
 
   const clearState = () => {
     setData({ ...initialState })
